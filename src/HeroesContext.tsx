@@ -1,4 +1,4 @@
-import React from 'react'
-const ProjectsContext = React.createContext({})
+import React from 'react';
+const HeroesContext = React.createContext<any>([{}]);
 
-export default ProjectsContext
+export default HeroesContext;
