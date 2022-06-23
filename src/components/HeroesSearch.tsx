@@ -1,7 +1,8 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import HeroesContext from '../HeroesContext';
 import { Container } from './ui/Container.styled';
+import { useDebouncedCallback } from 'use-debounce';
 
 const Input = styled.input`
   width: 80%;
@@ -13,21 +14,30 @@ const Input = styled.input`
 `;
 
 const HeroesSearch = () => {
-  const {
-    state: { filter },
-    dispatch,
-  } = useContext(HeroesContext);
+  const { dispatch } = useContext(HeroesContext);
+
+  const [searchValue, setSearchValue] = useState('');
+
+  const debouncedOnChange = useDebouncedCallback((value) => {
+    dispatch({
+      type: 'SET_FILTER',
+      payload: value,
+    });
+  }, 500);
+
+  useEffect(() => {
+    debouncedOnChange(searchValue);
+  }, [debouncedOnChange, searchValue]);
+
   return (
     <Container>
       <Input
         type="text"
         placeholder="Filter"
-        value={filter}
+        value={searchValue}
         onChange={(e) => {
-          dispatch({
-            type: 'SET_FILTER',
-            payload: e.target.value,
-          });
+          e.preventDefault();
+          setSearchValue(e.target.value);
         }}
       />
     </Container>
