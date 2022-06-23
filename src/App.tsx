@@ -16,19 +16,19 @@ const App = () => {
   });
 
   React.useEffect(() => {
-    fetch('http://localhost:3001/db.json')
+    fetch('http://localhost:8000/heroes')
       .then((res) => res.json())
       .then((data) => {
         dispatch({
           type: 'SET_HEROES',
-          payload: data?.heroes!,
+          payload: data!,
         });
         setInterval(() => {
           dispatch({
             type: 'SET_HEROES',
-            payload: data?.heroes!,
+            payload: data!,
           });
-        }, 150000);
+        }, 15000);
       });
   }, []);
 
