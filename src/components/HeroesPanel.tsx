@@ -1,20 +1,23 @@
 import { useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import HeroCard from './HeroCard';
 import HeroesContext from '../HeroesContext';
 import { Container } from './ui/Container.styled';
 import { CircularUnderLoad } from './ui/Loader';
 import { HeroProps } from '../types';
+import { Grid } from '@material-ui/core';
+import styled from '@emotion/styled';
 
-export const SingleHero = () => {
-  const {
-    state: { heroes },
-  } = useContext(HeroesContext);
-  const { heroIdParam } = useParams<{ heroIdParam: string }>();
-  const heroId = parseInt(heroIdParam!);
-  const hero = heroes?.find((el: HeroProps) => el && el?.id === heroId);
-  return <HeroCard hero={hero} />;
-};
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
+`;
 
 const HeroesPanel = () => {
   const {
@@ -29,24 +32,38 @@ const HeroesPanel = () => {
 
   return (
     <Container>
-      {isLoading ? (
-        <CircularUnderLoad />
-      ) : filter ? (
-        heroes
-          .filter((hero: HeroProps) => hero.name.toLowerCase().includes(filter.toLowerCase()))
-          .slice(0, 3)
-          .map((hero: any) => (
-            <Link key={hero.id} to={`/${hero.id}`}>
-              <HeroCard hero={hero} />
-            </Link>
+      <Grid container spacing={8} direction="row" justifyContent="center">
+        {isLoading ? (
+          <CircularUnderLoad />
+        ) : filter ? (
+          heroes
+            .filter((hero: HeroProps) => hero.name.toLowerCase().includes(filter.toLowerCase()))
+            .slice(0, 3)
+            .map((hero: HeroProps) => (
+              <Grid
+                key={hero.id}
+                container
+                item
+                xs={12}
+                lg={4}
+                md={4}
+                justifyContent="space-around"
+              >
+                <StyledLink to={`/${hero.id}`}>
+                  <HeroCard hero={hero} />
+                </StyledLink>
+              </Grid>
+            ))
+        ) : (
+          randomHeroes.map((hero: HeroProps) => (
+            <Grid key={hero.id} container item xs={12} lg={4} md={4} justifyContent="space-around">
+              <StyledLink to={`/${hero.id}`}>
+                <HeroCard hero={hero} />
+              </StyledLink>
+            </Grid>
           ))
-      ) : (
-        randomHeroes.map((hero: any) => (
-          <Link key={hero.id} to={`/${hero.id}`}>
-            <HeroCard hero={hero} />
-          </Link>
-        ))
-      )}
+        )}
+      </Grid>
     </Container>
   );
 };

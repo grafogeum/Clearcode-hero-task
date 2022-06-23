@@ -2,23 +2,21 @@ import styled from 'styled-components';
 
 const SideImageContainer = styled.div`
   display: flex;
-  align-items: center;
+  align-items: space-between;
   justify-content: center;
+  padding: 1rem;
+  margin: 1rem;
   flex: 1;
-  position: relative;
-  background: rgb(148, 147, 247);
-  background: linear-gradient(217deg, rgba(148, 147, 247, 1) 0%, rgba(210, 194, 221, 1) 100%);
-  border-top-right-radius: 26px;
-  border-bottom-right-radius: 26px;
+  width: 100%;
 `;
 
 const Image = styled.img`
-  width: auto;
-  height: 40vh;
-  img {
-    width: auto;
-    height: 100%;
-  }
+  overflow: hidden;
+  border-radius: 100%;
+  width: 20vh;
+  height: 20vh;
+  overflow: hidden;
+  border: 4px solid #9edec6;
 `;
 
 export const CardImage = ({ src, alt }: { src: string; alt: string }) => {

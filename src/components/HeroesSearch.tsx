@@ -4,9 +4,12 @@ import HeroesContext from '../HeroesContext';
 import { Container } from './ui/Container.styled';
 
 const Input = styled.input`
-  width: 100%;
+  width: 80%;
+  border-radius: 5px;
+  border: 1px solid #9edec6;
   fontsize: x-large;
   padding: 0.6rem;
+  margin: auto;
 `;
 
 const HeroesSearch = () => {

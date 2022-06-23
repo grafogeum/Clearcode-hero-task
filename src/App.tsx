@@ -1,39 +1,22 @@
 import React, { useEffect } from 'react';
+import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { isEmpty } from 'lodash';
 import Home from './screens/Home';
 import { Paths } from './utils/routing';
 import HeroesContext from './HeroesContext';
-import { Grid } from '@material-ui/core';
-import { SingleHero } from './components/HeroesPanel';
-
-export const ProjectsReducer = (state: any, action: any) => {
-  switch (action.type) {
-    case 'SET_HEROES':
-      return {
-        ...state,
-        heroes: action.payload,
-        isLoading: isEmpty(action.payload) ? true : false,
-      };
-    case 'SET_FILTER':
-      return {
-        ...state,
-        filter: action.payload,
-      };
-    default:
-      throw new Error(`Unhandled action type: ${action.type}`);
-  }
-};
+import { Typography } from '@material-ui/core';
+import { SingleHero } from './screens/SingleHero';
+import { HeroReducer } from './reducers/HeroReducer';
 
 const App = () => {
-  const [state, dispatch] = React.useReducer(ProjectsReducer, {
+  const [state, dispatch] = React.useReducer(HeroReducer, {
     heroes: [],
     filter: '',
     isLoading: true,
   });
 
   React.useEffect(() => {
-    fetch('http://localhost:3000/db.json')
+    fetch('http://localhost:3001/db.json')
       .then((res) => res.json())
       .then((data) => {
         dispatch({
@@ -45,13 +28,13 @@ const App = () => {
             type: 'SET_HEROES',
             payload: data?.heroes!,
           });
-        }, 15000);
+        }, 150000);
       });
   }, []);
 
   return (
     <div className="App-container">
-      <h1>Heroes</h1>
+      <Typography>Heroes</Typography>
       <HeroesContext.Provider
         value={{
           state,
