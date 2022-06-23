@@ -7,6 +7,8 @@ import HeroesContext from './HeroesContext';
 import { Typography } from '@material-ui/core';
 import { SingleHero } from './screens/SingleHero';
 import { HeroReducer } from './reducers/HeroReducer';
+import { HeroProps } from './types';
+import { getHeroes } from './utils/requests';
 
 const App = () => {
   const [state, dispatch] = React.useReducer(HeroReducer, {
@@ -16,20 +18,9 @@ const App = () => {
   });
 
   React.useEffect(() => {
-    fetch('http://localhost:8000/heroes')
-      .then((res) => res.json())
-      .then((data) => {
-        dispatch({
-          type: 'SET_HEROES',
-          payload: data!,
-        });
-        setInterval(() => {
-          dispatch({
-            type: 'SET_HEROES',
-            payload: data!,
-          });
-        }, 15000);
-      });
+    const setHeroesAction = (heroes: HeroProps[]) =>
+      dispatch({ type: 'SET_HEROES', payload: heroes });
+    getHeroes(setHeroesAction);
   }, []);
 
   return (
@@ -44,7 +35,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path={Paths.HOME} element={<Home />} />
-            <Route path={`${Paths.HOME}:heroIdParam`} element={<SingleHero />} />
+            <Route path={`${Paths.HOME}${Paths.HERODETAILS}`} element={<SingleHero />} />
           </Routes>
         </BrowserRouter>
       </HeroesContext.Provider>

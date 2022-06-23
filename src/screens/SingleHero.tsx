@@ -1,11 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import HeroCard from '../components/HeroCard';
 import { useContext } from 'react';
 import HeroesContext from '../HeroesContext';
 import { HeroProps } from '../types';
-import { heroRowHeader, language, heroPowerStats } from '../enums/enums';
+import { heroRowHeader, language } from '../enums/enums';
 import styled from '@emotion/styled';
+import { HeroPowerStats } from '../components/HeroPowerStats';
 
 const Table = styled.table`
   width: 100%;
@@ -92,7 +93,7 @@ const TableContainer = styled.div`
   }
 `;
 
-const TableCell = styled.div`
+export const TableCell = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -110,25 +111,6 @@ const TableRow = styled.tr`
   th {
     height: 100%;
     background-color: #c4c4c4;
-  }
-`;
-
-const PowerStats = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 10px;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #030303;
-  background-color: #4c4c4;
-  & p {
-    margin: 0;
-    fontsize: 1rem;
-    font-weight: bold;
-    color: #ff7f50;
-    text-transform: uppercase;
   }
 `;
 
@@ -169,21 +151,7 @@ const HeroDetails = ({
         <TableCell>Group Affiliation: {connections?.groupAffiliation!}</TableCell>
         <TableCell>Relatives: {connections?.relatives!}</TableCell>
       </td>
-      <td>
-        <PowerStats>
-          {powerStats &&
-            Object.values(powerStats).map((value, index) => {
-              return (
-                <TableCell key={index}>
-                  <h4>
-                    {heroPowerStats[index]}: {value}
-                  </h4>
-                  <hr />
-                </TableCell>
-              );
-            })}
-        </PowerStats>
-      </td>
+      <td>{<HeroPowerStats powerStats={powerStats} />}</td>
     </TableRow>
   </tbody>
 );

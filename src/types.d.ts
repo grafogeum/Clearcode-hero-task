@@ -48,7 +48,7 @@ type Appearance = {
   hairColor: string;
 };
 
-type PowerStats = {
+export type PowerStats = {
   intelligence: number;
   strength: number;
   speed: number;
